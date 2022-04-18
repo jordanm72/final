@@ -1,3 +1,6 @@
+from itertools import permutations
+
+
 class Word:
     """Class"""
     def __init__(self, word, dict, line):
@@ -20,6 +23,7 @@ class Word:
         s = self.word
 
 
+
     def chooseAlternative(self, ist, line):
         print("\n The incorrectly spelled word is and its line: " + self.word)
         print(self.line)
@@ -28,3 +32,22 @@ class Word:
         print(ist)
         i = input("Enter the index corresponding to the word you want to replace the misspelled one.")
         return ist[i]
+
+    def mixLetters(self):
+        answer = []
+        for l in permutations(self.word):
+            answer.append("".join(l))
+        words = []
+        for ans in answer:
+            if ans in self.dict:
+                words.append(ans)
+        return words
+
+    def addDouble(self):
+        answer = []
+        w = self.word
+        for i in range(len(w)):
+            new = w[:i] + w[i] + w[i:]
+            if new in self.dict:
+                answer.append(new)
+        return answer

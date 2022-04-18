@@ -13,7 +13,8 @@ class SpellChecker:
         self.lines = ist
         words = {}
         with open('words_alpha.txt') as w:
-            words = {w.read().split()}
+            for line in w:
+                words[line] = ""
         self.dict = words
         self.corrected = []
 
