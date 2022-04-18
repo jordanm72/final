@@ -51,3 +51,15 @@ class Word:
             if new in self.dict:
                 answer.append(new)
         return answer
+
+    def removeDouble(self):
+        answer = []
+        w = self.word
+        for i in range(0, len(w) - 1):
+            if w[i + 1] == w[i]:
+                new = w
+                new.replace(w[i])
+                i += 1
+                if new in self.dict:
+                    answer.append(new)
+        return answer
