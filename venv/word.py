@@ -8,6 +8,9 @@ class Word:
         self.dict = dict
         self.line = line
 
+    def __str__(self):
+        return self.word
+
     def checkWord(self):
         ist = self.findAlternatives()
         return self.chooseAlternative(ist, self.line)
@@ -19,16 +22,17 @@ class Word:
 
     def findAlternatives(self):
         answer = []
-        answer.append(self.removeDouble)
+        for ans in self.removeDouble():
+            answer.append(ans)
         return answer
 
     def chooseAlternative(self, ist, line):
-        print("\n The incorrectly spelled word is and its line: " + self.word)
+        print("\n The incorrectly spelled word is: " + str(self.word) + "\nIt's line is: ")
         print(self.line)
         print("Here is a list of possible intended words, along with an index showing how close they are to the"
               " original. Lower is closer to the original")
         print(ist)
-        i = input("Enter the index corresponding to the word you want to replace the misspelled one.")
+        i = int(input("Enter the index corresponding to the word you want to replace the misspelled one."))
         return ist[i]
 
     def singleTranspostions(self):
@@ -65,8 +69,7 @@ class Word:
         for i in range(0, len(w) - 1):
             if w[i + 1] == w[i]:
                 new = w
-                new.replace(w[i], "")
-                i += 1
+                new = new[:i] + new[i + 1:]
                 if new in self.dict:
                     answer.append(new)
         return answer

@@ -10,19 +10,21 @@ class SpellChecker:
         self.name = name
         with open(self.name) as f:
             for line in f:
-                print("Got here")
+                line1 = line
                 s = string.punctuation
                 s.replace("'", "")
-                for l in s:
-                    line.replace(l, "")
-                lower = line.lower()
+                for letter in line1:
+                    if letter in s:
+                        line1 = line1.replace(letter, "")
+                lower = line1.lower()
                 ist.append(lower)
-            self.text = f.read()
         self.lines = ist
+        with open(self.name) as f:
+            self.text = f.read()
         words = {}
         with open('words_alpha.txt') as w:
-            for line in w:
-                words[line] = ""
+            for w in w.read().split("\n"):
+                words[w] = ""
         self.dict = words
         self.corrected = []
 
@@ -35,7 +37,7 @@ class SpellChecker:
 
     def replace(self):
         for instance in self.corrected:
-            self.text.replace(instance[0], instance[1])
+            self.text = self.text.replace(instance[0][0], instance[0][1])
 
     def write(self):
         with open(self.name, 'w') as f:
@@ -45,7 +47,7 @@ class SpellChecker:
 
 s = SpellChecker("test.txt")
 s.check()
-print(s.lines)
+
 
 
 
