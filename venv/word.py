@@ -9,8 +9,6 @@ class Word:
         self.line = line
 
     def checkWord(self):
-        if self.checkSpelled():
-            return word
         ist = self.findAlternatives()
         return self.chooseAlternative(ist, self.line)
 
@@ -20,9 +18,9 @@ class Word:
         return False
 
     def findAlternatives(self):
-        s = self.word
-
-
+        answer = []
+        answer.append(self.removeDouble)
+        return answer
 
     def chooseAlternative(self, ist, line):
         print("\n The incorrectly spelled word is and its line: " + self.word)
@@ -32,6 +30,15 @@ class Word:
         print(ist)
         i = input("Enter the index corresponding to the word you want to replace the misspelled one.")
         return ist[i]
+
+    def singleTranspostions(self):
+        answer = []
+        w = self.word
+        for i in range(len(w) - 1):
+            new = w[:i].join(w[i + 1].join(w[i].join(w[i + 2:])))
+            if new in self.dict:
+                answer.append(new)
+        return answer
 
     def mixLetters(self):
         answer = []
@@ -58,8 +65,19 @@ class Word:
         for i in range(0, len(w) - 1):
             if w[i + 1] == w[i]:
                 new = w
-                new.replace(w[i])
+                new.replace(w[i], "")
                 i += 1
+                if new in self.dict:
+                    answer.append(new)
+        return answer
+
+    def transpose(self):
+        answer = []
+        w = self.word
+        letters = "abcdefghijklmnopqrstuvwxyz"
+        for i in range(len(w)):
+            for j in range(len(letters)):
+                new = w[:i].join(letters[j].join(w[(i + 1):]))
                 if new in self.dict:
                     answer.append(new)
         return answer

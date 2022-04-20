@@ -8,7 +8,10 @@ class Line:
         self.dict = dict
 
     def checkLine(self):
+        corrected = []
         for word in self.line:
             w = Word(word, self.dict, self.line)
-            word = w.checkWord()
-        return self.line
+            if not w.checkSpelled():
+                corrected.append((word, w.checkWord()))
+        return corrected
+
