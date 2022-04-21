@@ -23,16 +23,27 @@ class Word:
 
     def findAlternatives(self):
         answer = []
+        checkreplicates = []
         for ans in self.removeDouble():
-            answer.append(ans)
+            if ans[0] not in checkreplicates:
+                answer.append(ans)
+                checkreplicates.append(ans[0])
         for ans in self.singleTranspostions():
-            answer.append(ans)
+            if ans[0] not in checkreplicates:
+                answer.append(ans)
+                checkreplicates.append(ans[0])
         for ans in self.mixLetters():
-            answer.append(ans)
+            if ans[0] not in checkreplicates:
+                answer.append(ans)
+                checkreplicates.append(ans[0])
         for ans in self.addDouble():
-            answer.append(ans)
+            if ans[0] not in checkreplicates:
+                answer.append(ans)
+                checkreplicates.append(ans[0])
         for ans in self.transpose():
-            answer.append(ans)
+            if ans[0] not in checkreplicates:
+                answer.append(ans)
+                checkreplicates.append(ans[0])
         return answer
 
     def chooseAlternative(self, ist, line):
@@ -40,8 +51,9 @@ class Word:
         print(self.line)
         print("Here is a list of possible intended words, along with an index showing how close they are to the"
               " original. Lower is closer to the original")
-        print(ist[:10])
-        i = int(input("Enter the index corresponding to the word you want to replace the misspelled one."))
+        for i in range(len(ist)):
+            print("Index = " + str(i) + str(ist[i]))
+        i = str(input("Enter the index of the word you want to replace the misspelled one."))
         return ist[i]
 
     def singleTranspostions(self):
@@ -88,7 +100,7 @@ class Word:
         w = self.word
         letters = "abcdefghijklmnopqrstuvwxyz"
         for i in range(len(w)):
-            for j in range(len(letters)):
+            for j in range(25):
                 new = w[:i] + letters[j] + w[(i + 1):]
                 if new in self.dict:
                     answer.append((new, 7))
