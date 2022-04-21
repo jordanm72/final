@@ -51,9 +51,15 @@ class Word:
         print(self.line)
         print("Here is a list of possible intended words, along with an index showing how close they are to the"
               " original. Lower is closer to the original")
-        for i in range(len(ist)):
+        for i in range(min(20, len(ist))):
             print("Index = " + str(i) + str(ist[i]))
-        i = str(input("Enter the index of the word you want to replace the misspelled one."))
+        sentence = ("Enter the index of the word you want to replace the misspelled one. If you don't want to replace "
+                    "the word, enter -1. Enter -2 if you want to replace with a custom word")
+        i = int(input(sentence))
+        if i == -1:
+            return (self.word, 0)
+        if i == -2:
+            return (input("Enter the word you want"), 0)
         return ist[i]
 
     def singleTranspostions(self):

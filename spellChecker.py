@@ -36,9 +36,15 @@ class SpellChecker:
         self.write()
 
     def replace(self):
+        print(self.text)
+        print(self.corrected)
         for instance in self.corrected:
             for word in instance:
-                self.text = self.text.replace(word[0], word[1][0])
+                if word[0] != word[1][0]:
+                    print(word[0])
+                    print(word[1])
+                    self.text = self.text.replace(word[0], word[1][0])
+        print(self.text)
 
     def write(self):
         with open(self.name, 'w') as f:
