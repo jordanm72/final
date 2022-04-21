@@ -15,6 +15,6 @@ class Line:
         for word in self.line.split(" "):
             w = Word(word, self.dict, self.line)
             if not w.checkSpelled():
-                corrected.append((word, w.checkWord()))
+                corrected.append([word, w.checkWord()])
         return corrected
 

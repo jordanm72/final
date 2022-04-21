@@ -13,6 +13,7 @@ class Word:
 
     def checkWord(self):
         ist = self.findAlternatives()
+        ist = sorted(ist, key=lambda x: x[1])
         return self.chooseAlternative(ist, self.line)
 
     def checkSpelled(self):
@@ -24,6 +25,14 @@ class Word:
         answer = []
         for ans in self.removeDouble():
             answer.append(ans)
+        for ans in self.singleTranspostions():
+            answer.append(ans)
+        for ans in self.mixLetters():
+            answer.append(ans)
+        for ans in self.addDouble():
+            answer.append(ans)
+        for ans in self.transpose():
+            answer.append(ans)
         return answer
 
     def chooseAlternative(self, ist, line):
@@ -31,7 +40,7 @@ class Word:
         print(self.line)
         print("Here is a list of possible intended words, along with an index showing how close they are to the"
               " original. Lower is closer to the original")
-        print(ist)
+        print(ist[:10])
         i = int(input("Enter the index corresponding to the word you want to replace the misspelled one."))
         return ist[i]
 
@@ -39,9 +48,9 @@ class Word:
         answer = []
         w = self.word
         for i in range(len(w) - 1):
-            new = w[:i].join(w[i + 1].join(w[i].join(w[i + 2:])))
+            new = w[:i] + (w[i + 1] + (w[i] + (w[i + 2:])))
             if new in self.dict:
-                answer.append(new)
+                answer.append((new, 2))
         return answer
 
     def mixLetters(self):
@@ -51,7 +60,7 @@ class Word:
         words = []
         for ans in answer:
             if ans in self.dict:
-                words.append(ans)
+                words.append((ans, 5))
         return words
 
     def addDouble(self):
@@ -60,7 +69,7 @@ class Word:
         for i in range(len(w)):
             new = w[:i] + w[i] + w[i:]
             if new in self.dict:
-                answer.append(new)
+                answer.append((new, 3))
         return answer
 
     def removeDouble(self):
@@ -71,7 +80,7 @@ class Word:
                 new = w
                 new = new[:i] + new[i + 1:]
                 if new in self.dict:
-                    answer.append(new)
+                    answer.append((new, 1))
         return answer
 
     def transpose(self):
@@ -80,7 +89,7 @@ class Word:
         letters = "abcdefghijklmnopqrstuvwxyz"
         for i in range(len(w)):
             for j in range(len(letters)):
-                new = w[:i].join(letters[j].join(w[(i + 1):]))
+                new = w[:i] + letters[j] + w[(i + 1):]
                 if new in self.dict:
-                    answer.append(new)
+                    answer.append((new, 7))
         return answer
