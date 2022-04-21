@@ -32,11 +32,15 @@ class Word:
             if ans[0] not in checkreplicates:
                 answer.append(ans)
                 checkreplicates.append(ans[0])
-        for ans in self.mixLetters():
+        for ans in self.addDouble():
             if ans[0] not in checkreplicates:
                 answer.append(ans)
                 checkreplicates.append(ans[0])
-        for ans in self.addDouble():
+        for ans in self.permutations():
+            if ans[0] not in checkreplicates:
+                answer.append(ans)
+                checkreplicates.append(ans[0])
+        for ans in self.vowelPermutations():
             if ans[0] not in checkreplicates:
                 answer.append(ans)
                 checkreplicates.append(ans[0])
@@ -60,6 +64,10 @@ class Word:
             return (self.word, 0)
         if i == -2:
             return (input("Enter the word you want"), 0)
+        if 0 <= i <= min(20, len(ist)):
+            upper = int(input("If you want the first letter to be capitalized, enter 1"))
+            if upper == 1:
+                return (ist[i][0].capitalize(), ist[i][1])
         return ist[i]
 
     def singleTranspostions(self):
@@ -71,15 +79,33 @@ class Word:
                 answer.append((new, 2))
         return answer
 
-    def mixLetters(self):
+    def permutations(self):
         answer = []
-        for l in permutations(self.word):
-            answer.append("".join(l))
+        if len(self.word) < 6:
+            for l in permutations(self.word):
+                answer.append("".join(l))
         words = []
         for ans in answer:
             if ans in self.dict:
                 words.append((ans, 5))
         return words
+
+    def vowelPermutations(self):
+        vowels = ""
+        indices = []
+        for i in range(len(self.word)):
+            if self.word[i] in ["a", "e", "i", "u", "o"]:
+                vowels = vowels + self.word[i]
+                indices.append(i)
+        answers = []
+        for perm in permutations(vowels):
+            new = self.word[:indices[0]] + perm[0]
+            for j in range(1, len(vowels)):
+                new = new + self.word[indices[j - 1] + 1:indices[j]] + perm[j]
+            new = new + self.word[indices[len(vowels) - 1] + 1:]
+            if new in self.dict:
+                answers.append((new, 6))
+        return answers
 
     def addDouble(self):
         answer = []
@@ -111,3 +137,4 @@ class Word:
                 if new in self.dict:
                     answer.append((new, 7))
         return answer
+
